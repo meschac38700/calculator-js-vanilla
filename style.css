@@ -43,6 +43,7 @@ html, body{
   display: flex;
   flex-direction: column;
   box-shadow: var(--calculate-box-shadow);
+  overflow: hidden;
 }
 
 .calculate__head{
