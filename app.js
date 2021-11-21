@@ -59,7 +59,7 @@ const preventSeveralSignsInRow = () => {
  */
 const updateEquationScreen = (value) => {
 	const span = document.createElement("SPAN");
-	span.innerText = value;
+	span.innerText = value === "*" ? "X" : value;
 	if (EquationSigns.includes(value)) {
 		span.setAttribute("class", "operator");
 	}
