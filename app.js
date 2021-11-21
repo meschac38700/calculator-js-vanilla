@@ -46,6 +46,10 @@ const clearEquationScreen = (value, force = false) => {
 	}
 };
 
+/**
+ * clear result and equation from calculator header
+ * @returns {undefined} undefined
+ */
 const clearScreen = () => {
 	clearEquationScreen(null, true);
 	resultScreen.querySelector(".result__content").innerText = "";
