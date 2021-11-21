@@ -106,8 +106,8 @@ cells.forEach((cell) => {
 
 			if (![...CalcChar, ...EquationSigns].includes(value)) {
 				// is not calculable char
-				// TODO manage AC
-				if (value.toLowerCase() === "del") {
+				// TODO manage DEL
+				if (value.toLowerCase() === "ac") {
 					clearScreen();
 				}
 				console.log("==>", value);
