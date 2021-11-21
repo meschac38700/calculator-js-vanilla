@@ -18,6 +18,7 @@ const state = {
 	clearPrevEquation: false,
 	previousEquationChar: "",
 	equation: "",
+	lastResult: 0,
 };
 
 //--------------- Functions -----------------
@@ -28,6 +29,15 @@ const state = {
  * @param {boolean} force clear at all costs
  */
 const clearEquationScreen = (value, force = false) => {
+	// calculate using previous result
+	if (EquationSigns.includes(value) && state.clearPrevEquation) {
+		state.clearPrevEquation = false;
+		equationScreen.innerHTML = "";
+		state.equation = `${state.lastResult}`;
+
+		updateEquationScreen(`${state.lastResult}`);
+	}
+
 	if ((state.clearPrevEquation && CalcChar.includes(value)) || force) {
 		equationScreen.innerHTML = "";
 		state.clearPrevEquation = false;
@@ -75,7 +85,8 @@ const updateResult = () => {
 	if (state.equation !== "") {
 		const result = resultScreen.querySelector(".result__content");
 		try {
-			result.innerText = eval(state.equation).toString().replace(/\./, ",");
+			state.lastResult = eval(state.equation);
+			result.innerText = state.lastResult.toString().replace(/\./, ",");
 		} catch (exception) {
 			result.innerText = "0";
 			alert("Equation invalid.");
