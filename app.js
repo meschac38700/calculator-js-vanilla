@@ -56,6 +56,21 @@ const clearScreen = () => {
 };
 
 /**
+ * handler for clear All or remove last enter buttons [AC, DEL]
+ * @param {string} value
+ * @returns {undefined} undefined
+ */
+const clearAllRemoveHandler = (value) => {
+	// TODO manage DEL
+	if (value.toLowerCase() === "del") {
+		alert("Not implemented yet");
+	}
+	if (value.toLowerCase() === "ac") {
+		clearScreen();
+	}
+};
+
+/**
  * Prevent several signs in a row
  * by replace the last one with the current sign
  * @returns {undefined} undefined
@@ -119,13 +134,8 @@ cells.forEach((cell) => {
 
 			clearEquationScreen(value);
 
-			if (![...CalcChar, ...EquationSigns].includes(value)) {
-				// is not calculable char
-				// TODO manage DEL
-				if (value.toLowerCase() === "ac") {
-					clearScreen();
-				}
-				console.log("==>", value);
+			if (NotEquationSigns.includes(value)) {
+				clearAllRemoveHandler(value);
 				return;
 			}
 
