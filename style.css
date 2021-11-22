@@ -1,5 +1,5 @@
 :root{
-  --calculate-width: 250px;
+  --calculate-width: 280px;
   --calculate-background: rgba(255, 255, 255, .65);
   --calculate-body-height: 300px;
   --calculate-head-height: 60px;
@@ -18,10 +18,15 @@
 
 html, body{
   background: linear-gradient(to right, #059eff, #02da70);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text-black);
+}
+
+.strong{
+  font-weight: 700 !important;
+  font-size: 1.1rem;
 }
 
 .container{
@@ -50,7 +55,7 @@ html, body{
   background: #052e34;
   min-height: var(--calculate-head-height);
   color: var(--text-white);
-  font-size: 16px;
+  font-size: 1.3rem;
 }
 
 .calculate__head__content{
@@ -74,7 +79,7 @@ html, body{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 20px;
+  font-size: 1.6rem;
   font-weight: 600;
   border-top: 1px solid rgba(255, 255, 255, 0.1)
 }
@@ -102,6 +107,10 @@ html, body{
 
 .calculate__body__content .cell:hover{
   background: var(--white);
+}
+
+.calculate__body__content .cell.active{
+  background: #059eff54;
 }
 
 .calculate__body__content .cell.span-2{

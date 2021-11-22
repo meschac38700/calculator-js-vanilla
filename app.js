@@ -104,7 +104,7 @@ const updateResult = () => {
 	if (state.equation !== "") {
 		const result = resultScreen.querySelector(".result__content");
 		try {
-			state.lastResult = eval(state.equation);
+			state.lastResult = eval(state.equation).toLocaleString();
 			result.innerText = state.lastResult.toString().replace(/\./, ",");
 		} catch (exception) {
 			result.innerText = "0";
@@ -115,8 +115,75 @@ const updateResult = () => {
 	}
 };
 
+/**
+ * active touch select effect on click or keyboard event
+ * @param {HTMLElement} touch
+ * @returns {undefined} undefined
+ */
+const clickTouchEffect = (touch) => {
+	touch?.classList.add("active");
+	const timer = window.setTimeout(() => {
+		touch?.classList.remove("active");
+		clearTimeout(timer);
+	}, 200);
+	return;
+};
+
+/**
+ * Add action on calculator touch selected
+ * @param {HTMLElement} touch calculator touch
+ * @param {string} value touch value
+ * @returns {undefined}
+ */
+const touchSelectHandler = (touch, value) => {
+	if (ALLOW_CHAR.includes(value.toUpperCase())) {
+		clickTouchEffect(touch);
+
+		if (value === "=") {
+			state.clearPrevEquation = true;
+			updateResult();
+			return;
+		}
+
+		clearEquationScreen(value);
+
+		if (NotEquationSigns.includes(value)) {
+			clearAllRemoveHandler(value);
+			return;
+		}
+
+		state.previousEquationChar = value;
+
+		state.equation += value;
+
+		preventSeveralSignsInRow();
+
+		updateEquationScreen(value === "." ? "," : value);
+	} else {
+		alert("Invalid button value");
+	}
+	return;
+};
+
 //--------------- Keyboard Handler ---------------
 // TODO
+document.body.addEventListener("keydown", (e) => {
+	console.log(e.key);
+	const keyCodes = {
+		BACKSPACE: "DEL",
+		ENTER: "=",
+		DELETE: "AC",
+	};
+	const key = e.key.toUpperCase();
+	const value = keyCodes.hasOwnProperty(key) ? keyCodes[key] : key;
+
+	if (ALLOW_CHAR.includes(value)) {
+		touchSelectHandler(
+			document.querySelector(`[data-content="${value}"]`),
+			value
+		);
+	}
+});
 
 //--------------- Mouse Handler ---------------
 cells.forEach((cell) => {
@@ -125,29 +192,6 @@ cells.forEach((cell) => {
 		e.stopPropagation();
 		const value = cell.dataset.content.trim();
 
-		if (ALLOW_CHAR.includes(value.toUpperCase())) {
-			if (value === "=") {
-				state.clearPrevEquation = true;
-				updateResult();
-				return;
-			}
-
-			clearEquationScreen(value);
-
-			if (NotEquationSigns.includes(value)) {
-				clearAllRemoveHandler(value);
-				return;
-			}
-
-			state.previousEquationChar = value;
-
-			state.equation += value;
-
-			preventSeveralSignsInRow();
-
-			updateEquationScreen(value === "." ? "," : value);
-		} else {
-			alert("Invalid button value");
-		}
+		touchSelectHandler(cell, value);
 	});
 });
